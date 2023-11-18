@@ -11,7 +11,7 @@ async function initNoir(){
     //@ts-ignore
     const noirPedersen = new Noir(utils, backendPedersen);
     await noirPedersen.init();
-    console.log("Noir initied");
+    console.log("Noir initiated");
 }
 
 function createMerkleRoot() {

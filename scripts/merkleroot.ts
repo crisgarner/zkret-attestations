@@ -37,6 +37,7 @@ async function verify(merkleTree: MerkleTree, address: string) {
     const inputs = { leaf: merkleproof.leaf.toString() as `0x${string}`, index: index, hashpath: merkleproof.pathElements.map(x => x.toString()), root: merkleTree.root().toString() as `0x${string}`, };
     //@ts-ignore
     const proof = await noir.generateFinalProof(inputs);
+    console.log("Root =", merkleTree.root().toString() as `0x${string}`);
     console.log("Proof = ", toHex(proof.proof));
     const result = await noir.verifyFinalProof(proof);
     return result;

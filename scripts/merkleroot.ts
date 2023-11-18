@@ -1,5 +1,5 @@
 import { MerkleTree } from 'merkletreejs';
-import { Crs, Barretenberg, RawBuffer, Fr } from '@aztec/bb.js';
+import {  Barretenberg, Fr } from '@aztec/bb.js';
 import { BarretenbergBackend } from '@noir-lang/backend_barretenberg';
 import { Noir } from '@noir-lang/noir_js';
 import { allowlist } from "./allowlist";
@@ -19,6 +19,7 @@ async function initNoir() {
     noirPedersen = new Noir(utils, backendPedersen);
     await noirPedersen.init();
     api = await Barretenberg.new(/* num_threads */ 1);
+    api.pedersenInit();
     console.log("Noir initiated");
 }
 
@@ -32,7 +33,8 @@ async function createMerkleRoot() {
 
 async function pedersen(value: string|Buffer) {
     const input = Fr.fromString(value.toString());
-    const result = await api.pedersenCommit([input]);
+    // const result = await api.pedersenCommit([input]);
+    const result =  await api.pedersenPlookupCommit([input])
     console.log(`result is ${result}`);
     return result.toBuffer();
     //@ts-ignore

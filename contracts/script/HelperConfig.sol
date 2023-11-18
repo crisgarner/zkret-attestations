@@ -44,7 +44,7 @@ contract HelperConfig is Script {
             easAddress: address(0x5Ac2d741957efFFa9084dCC332C91a2df9DabF44),
             schemaRegistryAddress: address(0x67906BfF01c109523a1a30C47a167Ec6922263e4),
             attesterAddress: address(0x417a472a0676a2d023431b1f052c78f38F44a800),
-            zkVerifierAddress: address(0)
+            zkVerifierAddress: address(0xB0B3e45Bdf233539F98c919eB8321037DB32e1D8)
         });
         return config;
     }

@@ -24,17 +24,17 @@ async function initNoir() {
 
 async function createMerkleRoot() {
     const leafNodes = await Promise.all(allowlist.map(async (addr: string) => pedersen(addr)));
-    // console.log(`leafNodes = ${leafNodes}`);
-    // const merkleTree = new MerkleTree(leafNodes, pedersen, { sortPairs: true });
-    // // const merkleRoot = merkleTree.getHexRoot();
-    // console.log('merkle root:', merkleRoot);
+    const merkleTree = new MerkleTree(leafNodes, pedersen, { sortPairs: true });
+    const merkleRoot = merkleTree.getHexRoot();
+    console.log('merkle root:', merkleRoot);
     // console.log('leaf 1', merkleTree.getHexProof(await leafNodes[0]));
 }
 
-async function pedersen(value: string) {
-    const input = Fr.fromString(value);
+async function pedersen(value: string|Buffer) {
+    const input = Fr.fromString(value.toString());
     const result = await api.pedersenCommit([input]);
-    return result;
+    console.log(`result is ${result}`);
+    return result.toBuffer();
     //@ts-ignore
     // const result = await noirPedersen!.execute({ inputs: [value] });
     // console.log(`result is ${result!.returnValue[0]}`);

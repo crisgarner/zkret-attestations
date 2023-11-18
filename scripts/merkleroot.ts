@@ -6,14 +6,12 @@ import { allowlist } from "./allowlist";
 import { MerkleTree } from './merkleTree';
 import circuit from "../circuits/target/attestation.json";
 
-
 let backend: BarretenbergBackend;
 let noir: Noir;
 
-
 async function initNoir() {
     //@ts-ignore
-    backend = new BarretenbergBackend(circuit);
+    backend = new BarretenbergBackend(circuit, { threads: 8 });
     //@ts-ignore
     noir = new Noir(circuit, backend);
     await noir.init();
@@ -40,14 +38,15 @@ async function verify(merkleTree: MerkleTree, address: string) {
     //@ts-ignore
     const proof = await noir.generateFinalProof(inputs);
     console.log("Proof = ", toHex(proof.proof));
-    const r = await noir.verifyFinalProof(proof);
-    console.log("proof verified = ", r);
+    const result = await noir.verifyFinalProof(proof);
+    return result;
 }
 
 async function main() {
     await initNoir()
     const merkleTree = await createMerkleRoot();
-    await verify(merkleTree, "0xc59975735ed4774b3Ee8479D0b5A26388B929a34");
+    const result = await verify(merkleTree, "0xc59975735ed4774b3Ee8479D0b5A26388B929a34");
+    console.log("verifcation result = ", result);
     noir!.destroy();
     backend!.destroy();
     //@ts-ignore

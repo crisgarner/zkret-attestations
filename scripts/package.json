@@ -4,9 +4,10 @@
     "description": "",
     "main": "merkleroot.ts",
     "scripts": {
-        "start":"ts-node merkleroot.ts"
+        "start": "ts-node merkleroot.ts"
     },
     "dependencies": {
+        "@aztec/bb.js": "^0.15.0",
         "@noir-lang/backend_barretenberg": "0.17.0",
         "@noir-lang/noir_js": "0.17.0",
         "@types/node": "^20.9.1",

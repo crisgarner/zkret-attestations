@@ -39,7 +39,7 @@ contract ZkResolver is SchemaResolver {
     }
 
     function prove(bytes calldata _proof, bytes32[] calldata _publicInputs) external view returns (bool isValidProof) {
-        if (_publicInputs[4] != s_merkleRoot) {
+        if (_publicInputs[0] != s_merkleRoot) {
             revert ZkResolver__InvalidMerkleRoot();
         }
 

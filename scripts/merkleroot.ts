@@ -2,8 +2,17 @@ import { MerkleTree } from 'merkletreejs' ;
 import keccak256 from 'keccak256';
 import {BarretenbergBackend} from '@noir-lang/backend_barretenberg';
 import {Noir} from '@noir-lang/noir_js';
-import {allowlist} from "./allowlist"
+import {allowlist} from "./allowlist";
+import utils from "../circuits/utils/target/utils.json"
 
+async function initNoir(){
+     //@ts-ignore
+    const backendPedersen = new BarretenbergBackend(utils);
+    //@ts-ignore
+    const noirPedersen = new Noir(utils, backendPedersen);
+    await noirPedersen.init();
+    console.log("Noir initied");
+}
 
 function createMerkleRoot() {
     const leafNodes = allowlist.map((addr:String) => keccak256(addr));
@@ -17,5 +26,10 @@ function verify(){
  console.log(Noir);
 }
 
+function pedersen(){
+
+}
+
+initNoir()
 createMerkleRoot();
 verify();

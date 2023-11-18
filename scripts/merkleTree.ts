@@ -4,7 +4,6 @@ import { Barretenberg } from '@aztec/bb.js';
 import { Fr } from '@aztec/bb.js';
 import { cpus } from 'os';
 
-// thanks @vezenovm for this beautiful merkle tree implementation
 export interface IMerkleTree {
   root: () => Fr;
   proof: (index: number) => Promise<{

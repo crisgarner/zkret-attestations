@@ -8,9 +8,9 @@ import {ISchemaResolver} from "../src/resolver/ISchemaResolver.sol";
 import {SchemaRegistry} from "../src/SchemaRegistry.sol";
 
 contract Workflow is Script {
-    function run() public {
+    function run() public returns (address) {
         HelperConfig helperConfig = new HelperConfig();
-        (address easAddr, address schemaRegistryAddr, address attester, address zkVerifierAddress) =
+        (address easAddr, address schemaRegistryAddr, address attester, address ultraVerifier, address zkResolver) =
             helperConfig.activeNetworkConfig();
         SchemaRegistry registry = SchemaRegistry(schemaRegistryAddr);
         IEAS eas = IEAS(easAddr);
@@ -21,8 +21,7 @@ contract Workflow is Script {
             abi.encode(bytes32(0x100a1699a37444f7f0809a13d20f4658f91299d514b954d6c91c3993df56e2ac));
 
         vm.startBroadcast();
-        bytes32 uuid =
-            registry.register(schema, ISchemaResolver(address(0xc944774D81AC1185C7BB5c3474777E117A1adE62)), false);
+        bytes32 uuid = registry.register(schema, ISchemaResolver(zkResolver), false);
         AttestationRequestData memory attestationData = AttestationRequestData({
             recipient: address(0),
             expirationTime: 0,
@@ -34,5 +33,7 @@ contract Workflow is Script {
         AttestationRequest memory request = AttestationRequest({schema: uuid, data: attestationData});
         eas.attest(request);
         vm.stopBroadcast();
+
+        return zkResolver;
     }
 }

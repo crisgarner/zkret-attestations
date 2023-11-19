@@ -10,11 +10,15 @@ contract DeployZkResolver is Script {
     function run() public returns (ZkResolver) {
         HelperConfig helperConfig = new HelperConfig();
 
-        (address easAddress, /* address schemaRegistryAddress */, address attesterAddress, address zkVerifierAddress) =
-            helperConfig.activeNetworkConfig();
+        (
+            address easAddress, /* address schemaRegistryAddress */
+            ,
+            address attesterAddress,
+            address ultraVerifier, /* address zkResolver */
+        ) = helperConfig.activeNetworkConfig();
 
         vm.startBroadcast();
-        ZkResolver instance = new ZkResolver(EAS(easAddress), attesterAddress, IUltraVerifier(zkVerifierAddress));
+        ZkResolver instance = new ZkResolver(EAS(easAddress), attesterAddress, IUltraVerifier(ultraVerifier));
         vm.stopBroadcast();
 
         return instance;

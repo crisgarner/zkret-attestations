@@ -25,9 +25,9 @@ contract ZkResolver is SchemaResolver {
     }
 
     function onAttest(Attestation calldata attestation, uint256 value) internal virtual override returns (bool) {
-        if (attestation.attester != s_attester) {
-            return false;
-        }
+        // if (attestation.attester != s_attester) {
+        //     return false;
+        // }
 
         s_merkleRoot = abi.decode(attestation.data, (bytes32));
         return true;

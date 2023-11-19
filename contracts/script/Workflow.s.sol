@@ -15,7 +15,7 @@ contract Workflow is Script {
         SchemaRegistry registry = SchemaRegistry(schemaRegistryAddr);
         IEAS eas = IEAS(easAddr);
 
-        string memory schema = "bool isHuman";
+        string memory schema = "bool isHuman 3";
 
         bytes memory merkleRoot =
             abi.encode(bytes32(0x100a1699a37444f7f0809a13d20f4658f91299d514b954d6c91c3993df56e2ac));
